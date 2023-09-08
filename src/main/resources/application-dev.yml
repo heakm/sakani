@@ -1,0 +1,8 @@
+spring:
+    datasource:
+        password: 1234
+        url: jdbc:postgresql://localhost:5432/db_sakani_sd
+        username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update

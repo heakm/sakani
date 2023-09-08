@@ -1,0 +1,9 @@
+spring:
+    datasource:
+        password: io0mh!fe
+        url: jdbc:postgresql://postgres-blueui.postgres.database.azure.com:5432/postgres
+        username: hisham@postgres-blueui
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
