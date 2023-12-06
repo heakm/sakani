@@ -3,10 +3,6 @@ package com.hadef.sakani.domain.value.dto;
 import com.hadef.sakani.domain.entity.Project;
 import com.hadef.sakani.domain.entity.Reservation;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 

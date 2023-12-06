@@ -2,11 +2,13 @@ package com.hadef.sakani.domain.service.impl;
 
 import com.hadef.sakani.domain.entity.Project;
 import com.hadef.sakani.domain.entity.ProjectClassification;
+import com.hadef.sakani.domain.entity.ProjectFaq;
 import com.hadef.sakani.domain.entity.ProjectType;
 import com.hadef.sakani.domain.repository.ProjectClassificationRepository;
 import com.hadef.sakani.domain.repository.ProjectRepository;
 import com.hadef.sakani.domain.repository.ProjectTypeRepository;
 import com.hadef.sakani.domain.service.ProjectService;
+import com.hadef.sakani.domain.value.dto.AddingProjectFAQDTO;
 import com.hadef.sakani.domain.value.dto.ProjectDTO;
 import com.hadef.sakani.exceptions.CustomException;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.hadef.sakani.util.LoggingUtil.logError;
 import static com.hadef.sakani.util.LoggingUtil.logInfo;
@@ -55,7 +58,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDTO addNewProject(ProjectDTO dto) {
-        logInfo(serviceName,"adding new project");
+        logInfo(serviceName,"adding new project with %s",dto.getSlugTitle());
         List<String> errors = new ArrayList<String>();
         final Optional<ProjectType> projectTypeById = projectTypeRepository.findById(dto.getProjectTypeId());
         if(!projectTypeById.isPresent()) {
@@ -93,5 +96,19 @@ public class ProjectServiceImpl implements ProjectService {
                 .setVideoUrl(dto.getVideoUrl());
         projectRepository.save(project);
         return dto;
+    }
+
+    @Override
+    public void addProjectFAQ(AddingProjectFAQDTO dtos) {
+        Optional<Project> byId = projectRepository.findById(dtos.getProjectId());
+
+        if(byId.isPresent()){
+            List<ProjectFaq> collect = dtos.getFaqs().stream()
+                    .map(e -> modelMapper.map(e, ProjectFaq.class))
+                    .collect(Collectors.toList());
+            Project project = byId.get().setProjectFaq(collect);
+            projectRepository.save(project);
+        }
+        throw new CustomException("Project not found");
     }
 }

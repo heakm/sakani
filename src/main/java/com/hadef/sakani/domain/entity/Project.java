@@ -1,7 +1,5 @@
 package com.hadef.sakani.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hadef.sakani.domain.value.ProjectStatus;
 
 import javax.persistence.*;
@@ -20,25 +18,25 @@ public class Project extends Auditable implements Serializable{
     private Long id;
     private String title_ar;
     private String title_en;
-
+    
     @Column(unique = true)
     private String slugTitle;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_user_id")
     private User user;
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_type_id")
     private ProjectType projectType;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_classification_id")
     private ProjectClassification classification;
 
-    @JsonManagedReference(value = "projectFaqReference")
+//    @JsonManagedReference(value = "projectFaqReference")
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "projects",
             fetch = FetchType.LAZY,

@@ -1,5 +1,6 @@
 package com.hadef.sakani.util;
 
+import com.hadef.sakani.domain.entity.UserPrincipleSecondary;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,9 +44,9 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserPrincipleSecondary userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getUser().getEmail());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -59,10 +60,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, UserPrincipleSecondary userDetails) {
         final String username = extractUsername(token);
         return (
-                username.equals(userDetails.getUsername()) && !isTokenExpired(token)
+                username.equals(userDetails.getUser().getEmail()) && !isTokenExpired(token)
         );
     }
 }

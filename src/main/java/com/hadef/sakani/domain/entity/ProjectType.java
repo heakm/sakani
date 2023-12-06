@@ -24,7 +24,7 @@ public class ProjectType implements Serializable {
             cascade = CascadeType.ALL,
             mappedBy = "projectType",
             orphanRemoval = true)
-    @JsonManagedReference(value = "projectTypeReference")
+//    @JsonManagedReference(value = "projectTypeReference")
     private List<Project> projects = new ArrayList<>();
     public ProjectType() {
 

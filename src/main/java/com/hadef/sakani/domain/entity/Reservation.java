@@ -1,6 +1,7 @@
 package com.hadef.sakani.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,7 +21,7 @@ public class Reservation extends Auditable{
     )
     private ReservationStatus reservationStatus;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_reservation_id")
     private User user;

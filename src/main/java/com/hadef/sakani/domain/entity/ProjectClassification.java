@@ -19,7 +19,7 @@ public class ProjectClassification  implements Serializable {
     private Long id;
     private String name;
 
-    @JsonManagedReference(value = "projectClassificationReference")
+//    @JsonManagedReference(value = "projectClassificationReference")
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "classification",
             fetch = FetchType.LAZY,

@@ -6,6 +6,7 @@ import com.hadef.sakani.domain.service.UserService;
 import com.hadef.sakani.domain.value.dto.UserDTO;
 import com.hadef.sakani.exceptions.CustomException;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -21,9 +22,11 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ModelMapper mapper;
+    private final String serviceName;
     public UserServiceImpl(UserRepository userRepository, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.serviceName = this.getClass().getName();
     }
 
     public User searchByEmail(String email) {
@@ -31,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDTO> findAllUsers() {
-        List<User> usersList = userRepository.findAll();;
+        List<User> usersList = userRepository.findAll();
 
         return usersList
                 .stream()
@@ -57,11 +60,11 @@ public class UserServiceImpl implements UserService {
         }
 
         boolean existsEmail = userRepository.existsByEmail(user.getEmail());
-        if (!existsEmail) {
-            errors.add("Email is required");
+        if (existsEmail) {
+            errors.add("Email is already available");
         }
         if(!errors.isEmpty()){
-            throw new CustomException(errors.toString());
+            throw new CustomException(errors.toString(), HttpStatus.INTERNAL_SERVER_ERROR.value(),serviceName);
         }
         byte[] salt = createSalt();
         byte[] hashedPassword = createPasswordHash(password, salt);

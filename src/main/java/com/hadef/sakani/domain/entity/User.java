@@ -1,6 +1,8 @@
 package com.hadef.sakani.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Arrays;
@@ -31,7 +33,7 @@ public class User extends Auditable{
             mappedBy = "user",
             cascade = CascadeType.ALL
     )
-    @JsonManagedReference(value = "userProjectReference")
+//    @JsonManagedReference(value = "userProjectReference")
     private Set<Project> project = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY,
@@ -39,7 +41,7 @@ public class User extends Auditable{
             mappedBy = "user",
             cascade = CascadeType.ALL
     )
-    @JsonManagedReference(value = "userReservationReference")
+//    @JsonManagedReference(value = "userReservationReference")
     private Set<Reservation> reservations = new HashSet<>();
 
     private boolean isSubscribedToNewsletter = true;

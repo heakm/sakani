@@ -1,7 +1,9 @@
 package com.hadef.sakani.filters;
 
+import com.hadef.sakani.domain.entity.UserPrincipleSecondary;
 import com.hadef.sakani.domain.service.impl.ApplicationUserDetailsService;
 import com.hadef.sakani.util.JwtUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +22,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final ApplicationUserDetailsService userDetailsService;
 
     private final JwtUtil jwtUtil;
-
-    public JwtRequestFilter(ApplicationUserDetailsService userDetailsService, JwtUtil jwtUtil) {
+    private final ModelMapper modelMapper;
+    public JwtRequestFilter(ApplicationUserDetailsService userDetailsService, JwtUtil jwtUtil, ModelMapper modelMapper) {
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -51,8 +54,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         ) {
             UserDetails userDetails =
                     this.userDetailsService.loadUserByUsername(username);
-
-            if (jwtUtil.validateToken(token, userDetails)) {
+            UserPrincipleSecondary userPrincipleSecondary = modelMapper.map(userDetails, UserPrincipleSecondary.class);
+            if (jwtUtil.validateToken(token, userPrincipleSecondary)) {
                 var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

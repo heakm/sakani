@@ -10,14 +10,13 @@ public class ProjectFaqDTO {
     private Long id;
     private String question;
     private String answer;
-    private Project project;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProjectFaqDTO that = (ProjectFaqDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(question, that.question) && Objects.equals(answer, that.answer) && Objects.equals(project, that.project);
+        return Objects.equals(id, that.id) && Objects.equals(question, that.question) && Objects.equals(answer, that.answer);
     }
 
     public ProjectFaqDTO() {
@@ -27,13 +26,12 @@ public class ProjectFaqDTO {
         this.id = id;
         this.question = question;
         this.answer = answer;
-        this.project = project;
     }
 
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, question, answer, project);
+        return Objects.hash(id, question, answer);
     }
 
     public Long getId() {
@@ -63,12 +61,4 @@ public class ProjectFaqDTO {
         return this;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public ProjectFaqDTO setProject(Project project) {
-        this.project = project;
-        return this;
-    }
 }
